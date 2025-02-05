@@ -1,15 +1,31 @@
 {
-    "name": "aiscript",
-    "version": "1.0.0",
+    "name": "@aitida/aiscript",
+    "version": "1.0.1",
     "description": "AI-powered React component generator",
     "main": "index.js",
     "bin": {
         "aiscript": "./index.js"
     },
     "type": "module",
+    "files": [
+        "index.js"
+    ],
+    "keywords": [
+        "react",
+        "components",
+        "ai",
+        "claude",
+        "generator"
+    ],
+    "author": "joshpf",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/joshp-f/aiscript.git"
+    },
     "dependencies": {
         "@anthropic-ai/sdk": "^0.17.1",
-        "glob": "^10.3.10",
-        "fs-extra": "^11.2.0"
+        "fs-extra": "^11.2.0",
+        "glob": "^10.3.10"
     }
 }
