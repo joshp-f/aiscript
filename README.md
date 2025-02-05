@@ -5,7 +5,9 @@ AIScript is a CLI tool that automatically generates React components using Claud
 ## Features
 
 - 🤖 Declerative, AI-powered component generation
-- 📝 TypeScript support
+- 📝 TypeScript and JavaScript support
+- ⚛️ React and Vue.js support
+- 🎯 Next.js compatible
 - 🔍 Automatic component discovery
 - ⚡️ Separates AI code from human code
 
@@ -24,7 +26,7 @@ export ANTHROPIC_API_KEY='your-key-here'
 1. In your React components, use the `AIC` namespace to indicate where you want AI-generated components:
 
 ```tsx
-// import AIC from the root of your src directory
+// React/Next.js Example (TypeScript)
 import { AIC } from './aiscript';
 
 function App() {
@@ -38,6 +40,29 @@ function App() {
       />
     </div>
   );
+}
+```
+
+```vue
+<!-- Vue Example -->
+<template>
+  <div>
+    <h1>My App</h1>
+    <!-- The Product Card component is beige with rounded borders, extremely clean and modern design -->
+    <AIC-ProductCard 
+      title="Amazing Product"
+      :price="99.99"
+    />
+  </div>
+</template>
+
+<script>
+import { AIC } from './aiscript'
+
+export default {
+  components: {
+    'AIC-ProductCard': AIC.ProductCard
+  }
 }
 ```
 
