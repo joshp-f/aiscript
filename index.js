@@ -74,7 +74,8 @@ async function generateComponent(componentName, sourceFile) {
 
     // Delete components that are no longer referenced
     for (const file of componentFiles) {
-        const componentName = path.basename(file, '.tsx');
+        const ext = path.extname(file);
+        const componentName = path.basename(file, ext);
         if (!validComponents.has(componentName)) {
         console.log(`🗑️ Deleting unused component: ${componentName}`);
         await fs.remove(file);
