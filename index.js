@@ -34,7 +34,6 @@ async function findComponentUsages() {
 
 async function generateComponent(componentName, sourceFile) {
     const sourceContent = await fs.readFile(sourceFile, 'utf-8');
-    console.log(sourceContent);
     
     const message = await anthropic.messages.create({
       model: "claude-3-sonnet-20240229",
