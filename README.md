@@ -44,12 +44,12 @@ function App() {
 ```
 
 ```vue
-<!-- Vue Example -->
+<!-- Vue 3 Example -->
 <template>
   <div>
     <h1>My App</h1>
     <!-- The Product Card component is beige with rounded borders, extremely clean and modern design -->
-    <AIC-ProductCard 
+    <AIC.ProductCard 
       title="Amazing Product"
       :price="99.99"
     />
@@ -58,12 +58,6 @@ function App() {
 
 <script>
 import { AIC } from './aiscript'
-
-export default {
-  components: {
-    'AIC-ProductCard': AIC.ProductCard
-  }
-}
 ```
 
 2. Run AIScript in your project root:

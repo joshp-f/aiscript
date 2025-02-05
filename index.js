@@ -18,7 +18,7 @@ async function findComponentUsages() {
 
   for (const file of files) {
     const content = await fs.readFile(file, 'utf-8');
-    const matches = content.match(/AIC\.[A-Z][a-zA-Z]*/g);
+    const matches = content.match(/AIC\.[a-zA-Z0-9]*/g);
     
     if (matches) {
       for (const match of matches) {
@@ -34,13 +34,21 @@ async function findComponentUsages() {
 }
 
 
+function detectFramework(sourceContent, fileExt) {
+    const isVue = fileExt === '.vue';
+    const isTypeScript = sourceContent.includes('typescript') || fileExt.includes('ts');
+    return {
+        isVue,
+        isTypeScript,
+        framework: isVue ? 'Vue' : 'React',
+        fileExtension: isVue ? '.vue' : (isTypeScript ? '.tsx' : '.jsx')
+    };
+}
+
 async function generateComponent(componentName, sourceFile) {
     const sourceContent = await fs.readFile(sourceFile, 'utf-8');
     const fileExt = path.extname(sourceFile);
-    const isVue = fileExt === '.vue';
-    const isTypeScript = sourceContent.includes('typescript') || sourceContent.includes(':') || fileExt.includes('ts');
-    const framework = isVue ? 'Vue' : 'React';
-    const fileExtension = isVue ? '.vue' : (isTypeScript ? '.tsx' : '.jsx');
+    const { isVue, isTypeScript, framework, fileExtension } = detectFramework(sourceContent, fileExt);
 
     const message = await anthropic.messages.create({
       model: "claude-3-sonnet-20240229",
@@ -67,7 +75,7 @@ async function generateComponent(componentName, sourceFile) {
     return componentCode;
   }
   
-  async function updateIndexFile(aiscriptDir,componentUsages) {
+  async function updateIndexFile(aiscriptDir, componentUsages) {
     const componentFiles = await glob(path.join(aiscriptDir, '*.{tsx,jsx,vue}'));
 
     const validComponents = new Set(componentUsages.keys());
@@ -81,14 +89,16 @@ async function generateComponent(componentName, sourceFile) {
         await fs.remove(file);
         }
     }
-    const exports = [...validComponents].map(file => {
-      const componentName = path.basename(file, '.tsx');
-      return `import ${componentName} from './${componentName}';`;
-    });
+    const exports = await Promise.all([...validComponents].map(async componentName => {
+      const sourceFile = componentUsages.get(componentName);
+      const sourceContent = await fs.readFile(sourceFile, 'utf-8');
+      const sourceExt = path.extname(sourceFile);
+      const { fileExtension } = detectFramework(sourceContent, sourceExt);
+      return `import ${componentName} from './${componentName}${fileExtension}';`;
+    }));
     
     const exportMap = `export const AIC = {
-${[...validComponents].map(file => {
-      const componentName = path.basename(file, '.tsx');
+${[...validComponents].map(componentName => {
       return `  ${componentName},`;
     }).join('\n')}
 };`;
@@ -139,11 +149,8 @@ ${exportMap}`;
   
     for (const [componentName, sourceFile] of componentUsages) {
       const sourceExt = path.extname(sourceFile);
-      const isVue = sourceExt === '.vue';
-      const isTypeScript = await fs.readFile(sourceFile, 'utf-8').then(content => 
-        content.includes('typescript') || sourceExt.includes('ts')
-      );
-      const fileExtension = isVue ? '.vue' : (isTypeScript ? '.tsx' : '.jsx');
+      const sourceContent = await fs.readFile(sourceFile, 'utf-8');
+      const { fileExtension } = detectFramework(sourceContent, sourceExt);
       const componentPath = path.join(aiscriptDir, `${componentName}${fileExtension}`);
       
       if (await fs.pathExists(componentPath)) {
