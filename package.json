@@ -1,0 +1,15 @@
+{
+    "name": "aiscript",
+    "version": "1.0.0",
+    "description": "AI-powered React component generator",
+    "main": "index.js",
+    "bin": {
+        "aiscript": "./index.js"
+    },
+    "type": "module",
+    "dependencies": {
+        "@anthropic-ai/sdk": "^0.17.1",
+        "glob": "^10.3.10",
+        "fs-extra": "^11.2.0"
+    }
+}
