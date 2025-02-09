@@ -63,7 +63,7 @@ import { AIC } from './aiscript'
 2. Run AIScript in your project root:
 
 ```bash
-npx aiscript
+npx @aitida/aiscript
 ```
 
 3. AIScript will:
