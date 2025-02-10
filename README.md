@@ -1,14 +1,42 @@
 # AIScript
 
-AIScript is a CLI tool that automatically generates React components using Claude AI. It scans your React project for component placeholders and creates the corresponding components based on their usage context. It is a first attempt at an AI powered programming language.
+AIScript is a compiler from human language to code.
 
+Unlike Cursor or Copilot, AIScript separates AI code from human code, just like a compiler separates binary from application code.
+
+This means you don’t need to read confusing AI code. Instead, focus on  communicating your goal in english.
+
+Example:
+```tsx
+{/* PortfolioWrapper is a sleek modern ux container for the portfolio. It must span the entire page top to bottom */}
+<AIC.PortfolioWrapperV4>
+  {/* PorfolioTitle must be a sleek, modern, well sized title with large and modern font - 'josh dir'. */}
+  <AIC.PortfolioTitle />
+  {/* ProjectsGrid is a sleek modern container for the projects. It is a 3 column grid that stretches the screen. It takes children as props. */}
+  <AIC.ProjectsGridV4>
+    {sites.map(site => {
+      /* ProjectItem is a sleek, modern item to show off each project to each user.
+      It has a clearly visible rounded and thick border, large colorful text with a modern font.
+      Each project button should have its own background color coordinating with text color
+      All border colors should be the same
+      All boxes should be the same */
+      return <AIC.ProjectItemV5 site={site} />
+    })}
+  </AIC.ProjectsGridV4>
+</AIC.PortfolioWrapperV4>
+```
+This AIScript compiled into the website https://blog.aitida.com/
+
+
+```bash
+npx @aitida/aiscript
+```
+Run this in root of your project to start compiling!
 ## Features
 
-- 🤖 Declerative, AI-powered component generation
 - 📝 TypeScript and JavaScript support
 - ⚛️ React and Vue.js support
 - 🎯 Next.js compatible
-- 🔍 Automatic component discovery
 - ⚡️ Separates AI code from human code
 
 ## Prerequisites

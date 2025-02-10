@@ -62,10 +62,10 @@ async function generateComponent(componentName, sourceFile) {
   Please create a ${isTypeScript ? 'TypeScript' : 'JavaScript'} ${framework} component that would work well in this context. The component should:
   1. Be exported as default
   2. ${isTypeScript ? 'Include proper TypeScript types' : 'Use JSDoc for type documentation'}
-  3. Follow ${framework} best practices
-  4. Be fully functional based on how it appears to be used in the source file - Absolutely follow any comments around the components use location
-  5. The file must be COMPLETELY self contained apart from third party imports, so no .css imports
+  4. Be fully functional based on how it appears to be used in the source file - Must align perfectly with  comments in the usage file
+  5. The file must be COMPLETELY self contained apart from third party imports, so no .css imports, and no imports of helper functions or components at all.
   6. ${isVue ? 'Include both template and script sections' : ''}
+  7. ONLY have one default export, the component
   
   Return only the component code with no explanation or markdown.`
       }]
